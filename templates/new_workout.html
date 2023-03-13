@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>New Workout</title>
+  </head>
+  <body>
+    <h1>New Workout</h1>
+    <form method="POST" action="{{ url_for('new_workout', username=user.username) }}">
+      {{ form.hidden_tag() }}
+      <p>
+        {{ form.username.label }} {{ form.username() }}
+      </p>
+      <div id="exercises">
+        {% for exercise in form.exercises %}
+        <div class="exercise">
+          <h3>Exercise {{ loop.index }}</h3>
+          <p>
+            {{ exercise.movement.label }} {{ exercise.movement() }}
+          </p>
+          <p>
+            {{ exercise.sets.label }} {{ exercise.sets() }}
+          </p>
+          <p>
+            {{ exercise.reps.label }} {{ exercise.reps() }}
+          </p>
+          <p>
+            {{ exercise.weight.label }} {{ exercise.weight() }}
+          </p>
+          <p>
+            {{ exercise.time.label }} {{ exercise.time() }}
+          </p>
+        </div>
+        {% endfor %}
+      </div>
+      <button type="button" onclick="addExercise()">Add Exercise</button>
+      <p>
+        <label for="date">Date:</label>
+        {{ form.date() }}
+      </p>
+      <button type="submit">Submit</button>
+    </form>
+
+    <script>
+      let exerciseCount = {{ form.exercises | length }};
+      function addExercise() {
+        exerciseCount++;
+        const exercise = document.createElement("div");
+        exercise.className = "exercise";
+        exercise.innerHTML =
+          `<h3>Exercise ${exerciseCount}</h3>
+          <p>
+            <label for="exercises-${exerciseCount}-movement">Movement:</label>
+            {{ form.exercises[0].movement(class="form-control") }}
+          </p>
+          <p>
+            <label for="exercises-${exerciseCount}-sets">Sets:</label>
+            {{ form.exercises[0].sets(class="form-control") }}
+          </p>
+          <p>
+            <label for="exercises-${exerciseCount}-reps">Reps:</label>
+            {{ form.exercises[0].reps(class="form-control") }}
+          </p>
+          <p>
+            <label for="exercises-${exerciseCount}-weight">Weight:</label>
+            {{ form.exercises[0].weight(class="form-control") }}
+          </p>
+          <p>
+            <label for="exercises-${exerciseCount}-time">Time:</label>
+            {{ form.exercises[0].time(class="form-control") }}
+          </p>`;
+        const exercises = document.getElementById("exercises");
+        exercises.appendChild(exercise);
+      }
+    </script>
+  </body>
+</html>

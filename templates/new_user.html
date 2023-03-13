@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>New User</title>
+  </head>
+  <body>
+    <h1>New User</h1>
+    <form method="POST" action="{/new-user}">
+      {{ form.hidden_tag() }}
+      <p>
+        <label for="username">Username:</label>
+        {{ form.username() }}
+      </p>
+      <p>
+        <label for="email">Email:</label>
+        {{ form.email() }}
+      </p>
+      <button type="submit">Submit</button>
+    </form>
+  </body>
+</html>
+
