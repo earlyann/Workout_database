@@ -30,20 +30,20 @@ with app.app_context():
 @app.route("/")
 def home():
     with app.app_context():
-        response = make_response(f"LACEY'S WORKOUT LOG /new-workout or /new-workout/<username> or /new-user")
+        response = make_response(f"LACEY'S WORKOUT LOG /new-workout or /new-user")
         response.headers = [('Content-Type', 'text/plain')]
         return response
 
 @app.route('/new-workout', methods=['GET', 'POST'])
-def new_workout():
+def new_workout(username):
     with app.app_context():
         form = NewWorkoutForm()
         if request.method == 'POST' and form.validate():
             session = Session(db.engine)
-            user = session.query(User).filter_by(username=form.username.data).first()
+            user = session.query(User).filter_by(username=username).first()
             if not user:
                 flash('Invalid username')
-                return redirect(url_for('new_workout'))
+                return redirect(url_for('new_workout', username=username))
 
             # Loop through the exercises list and add each exercise to the database
             for exercise_form in form.exercises:
@@ -63,8 +63,10 @@ def new_workout():
                                     date=form.date.data)
                 session.add(exercise)
                 session.commit()
-            return redirect(url_for('new_workout'))
-        return render_template('new_workout.html', form=form)
+            return redirect(url_for('new_workout', username=username))
+        return render_template('new_workout.html', form=form, users=db.session.query(User).all())
+
+
         
 
 @app.route('/new-user', methods=['GET', 'POST'])
