@@ -14,18 +14,12 @@ class ExerciseForm(FlaskForm):
     reps = IntegerField('Reps', validators=[DataRequired()])
     weight = IntegerField('Weight', validators=[DataRequired()])
     time = StringField('Time', validators=[DataRequired(), Length(max=8)])
-    
 
 class NewWorkoutForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
     exercises = FieldList(FormField(ExerciseForm), min_entries=1)
     date = DateField('Date', validators=[DataRequired()])
+    add_exercise = SubmitField('Add Exercise')
     submit = SubmitField('Submit')
 
-
-
-class NewUserForm(FlaskForm):
-    username = StringField('Username', validators=[DataRequired(), Length(max=50)])
-    email = StringField('Email', validators=[DataRequired(), Email(), Length(max=120)])
-    submit = SubmitField('Create Account')
 

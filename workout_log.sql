@@ -1,8 +1,4 @@
-CREATE TABLE "workout" (
-    "user_id" INT  NOT NULL,
-    "exercise_id" INT   NOT NULL,
-    "workout_date" DATE   NOT NULL
-);
+
 
 CREATE TABLE "movement" (
     "movement_id" SERIAL NOT NULL,
@@ -14,7 +10,7 @@ CREATE TABLE "movement" (
      )
 );
 
-CREATE TABLE "user" (
+CREATE TABLE "users" (
     "user_id"  SERIAL NOT NULL,
     "user_name" VARCHAR   NOT NULL,
     "password" VARCHAR(18)   NOT NULL,
@@ -32,6 +28,13 @@ CREATE TABLE "exercise" (
     CONSTRAINT "pk_Exercise" PRIMARY KEY (
         "exercise_id"
      )
+);
+
+CREATE TABLE "workout" (
+    "workout_id" SERIAL NOT NULL,
+    "user_id" INT  NOT NULL,
+    "exercise_id" INT   NOT NULL,
+    "workout_date" DATE   NOT NULL
 );
 
 ALTER TABLE "workout" ADD CONSTRAINT "fk_workout_user_id" FOREIGN KEY("user_id")
@@ -52,7 +55,7 @@ ADD CONSTRAINT "positive_reps" CHECK ("number_of_reps" > 0);
 INSERT INTO movement (name, description, primary_muscle_group)
 VALUES ('Dumbbell Clean', 'Standing over the DB, snap to the rack', 'Arms'),
        ('Single Arm Dumbbell Press', 'With one arm, starting in the rack press up', 'Arms'),
-       ('Double Dumbbell Pres', 'With two DBs, starting in the rack press up', 'Arms'),
+       ('Double Dumbbell Press', 'With two DBs, starting in the rack press up', 'Arms'),
        ('Sumo Kettlebell Deadlift', 'Start standing wide in front of two KBs on the ground, pick it up', 'Back'),
        ('Kettlebell Deadlift', 'Start standing in front of two KBs, pick it up', 'Back');
 
